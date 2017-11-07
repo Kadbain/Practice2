@@ -70,26 +70,27 @@ public class MyListImpl implements MyList, ListIterable {
     @Override
     public boolean contains(Object o) {
         for (Object o1 : array) {
-            if (o.equals(o1)) {
-                return true;
+            if (o != null) {
+                if (o.equals(o1)) {
+                    return true;
+                }
+            } else {
+                if (o1 == null) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     @Override
-    public boolean containsAll(MyList list) { // A, null, A3, A2 -> A, A2
-        Object[] arrTmp = list.toArray();
-        for (int i = 0; i < arrTmp.length; i++) {
-            for (int j = 0; j < array.length; j++) {
-                if (arrTmp[i] != null) {
-                    if (arrTmp[i].equals(array[j])) {
-                        return true;
-                    }
-                }
+    public boolean containsAll(MyList list) {
+        for (Object o : list) {
+            if (!contains(o)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private void reSize(int newLength) {
@@ -104,7 +105,10 @@ public class MyListImpl implements MyList, ListIterable {
         if (size() != 0) {
             sb.append('[');
         } else sb.append("[]");
-        String[] arrayResult = Arrays.toString(array).replace("[", "").replace("]", "").split(", ");
+        String[] arrayResult = Arrays.toString(array)
+                .replace("[", "")
+                .replace("]", "")
+                .split(", ");
         for (int i = 0; i < size(); i++) {
             if (i != size() - 1) {
                 sb.append(arrayResult[i]).append(", ");
@@ -114,7 +118,6 @@ public class MyListImpl implements MyList, ListIterable {
         }
         return sb.toString();
     }
-
 
     private class IteratorImpl implements Iterator<Object> {
         int cursor;
@@ -133,6 +136,7 @@ public class MyListImpl implements MyList, ListIterable {
             return MyListImpl.this.array[lastRet = i];
         }
 
+        @Override
         public void remove() {
             if (lastRet < 0) {
                 throw new IllegalStateException();
@@ -173,7 +177,7 @@ public class MyListImpl implements MyList, ListIterable {
 
         @Override
         public void set(Object e) {
-            if(lastRet < 0){
+            if (lastRet < 0) {
                 throw new IllegalStateException();
             }
 

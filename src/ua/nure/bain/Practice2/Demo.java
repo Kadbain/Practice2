@@ -12,9 +12,9 @@ public class Demo {
         list.clear();
         System.out.println(list);
         list.add("A");
-        list.add(null);
         list.add("A2");
         list.add("A3");
+        System.out.println(list.contains(null));
         list.remove("A2");
         System.out.println(list);
         for (Object el : list.toArray()) {
@@ -22,20 +22,15 @@ public class Demo {
         }
         System.out.println();
         System.out.println(list.size());
-// false
         System.out.println(list.contains("B"));
-// true
         System.out.println(list.contains("A3"));
-// true
         list.add("A2");
         MyList anotherList = new MyListImpl();
         anotherList.add("A");
         anotherList.add("A2");
         System.out.println(list.containsAll(anotherList));
-// false
         anotherList.add("B");
         System.out.println(list.containsAll(anotherList));
-// true
         list.add("B");
         System.out.println(list.containsAll(anotherList));
         System.out.println("==== Part2");
